@@ -27,6 +27,15 @@ app.get('/collection/:collectionName',(req,res,next)=>{
         res.send(results);
     })
 });
+app.get('/collection/:collectionName/:sortby/:order',(req,res,next)=>
+{
+    req.collection.find({},{sort:[[req.params.sortby , parseInt(req.params.order)]]})
+    .toArray((e, results)=>
+    {
+        if(e) return next(e);
+        res.send(results);
+    })
+})
 app.post('/collection/:collectionName',(req,res,next) =>{
     req.collection.insert(req.body,(e,results) => {
         if(e) return next(e);
@@ -48,5 +57,5 @@ app.put('/collection/:collectionName/:id',(req,res,next) =>{
 app.listen(port, ()=>{
     console.log('Express is running in in (heroku)port' + port);
 })
-
+//(sort:[[req.params.sortby , parseInt(req.params.order)]]
 // cst3145cw2?retryWrites=true&w=majority/
