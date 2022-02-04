@@ -40,7 +40,7 @@ app.get('/collection/:collectionName/:searchTerm',(req,res,next)=>
 {
     //'.*'+req.params.searchTerm+'.*'
     var srch = "/"+req.params.searchTerm+"/";
-    req.collection.find({"subject": {'$in': srch}}).toArray((e,results)=>
+    req.collection.find({"subject": {'$regex': srch}}).toArray((e,results)=>
     {
         if(e) return next(e);
         res.send(results);
