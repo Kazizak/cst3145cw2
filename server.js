@@ -36,6 +36,15 @@ app.get('/collection/:collectionName/:sortby/:order',(req,res,next)=>
         res.send(results);
     })
 })
+app.get('/collection/:collectionName/:searchTerm',(req,res,next)=>
+{
+    var srch = '.*'+req.params.searchTerm+'.*';
+    req.collection.find({"subject": {'$regex': srch}}).toArray((e,results)=>
+    {
+        if(e) return next(e);
+        res.send(results);
+    })
+})
 app.post('/collection/:collectionName',(req,res,next) =>{
     req.collection.insert(req.body,(e,results) => {
         if(e) return next(e);
