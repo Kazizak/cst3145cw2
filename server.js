@@ -38,7 +38,8 @@ app.get('/collection/:collectionName/:sortby/:order',(req,res,next)=>
 })
 app.get('/collection/:collectionName/:searchTerm',(req,res,next)=>
 {
-    var srch = '.*'+req.params.searchTerm+'.*';
+    //'.*'+req.params.searchTerm+'.*'
+    var srch = 'Maths';
     req.collection.find({"subject": {'$regex': srch}}).toArray((e,results)=>
     {
         if(e) return next(e);
