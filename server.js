@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+const port = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 const mongoClient = require('mongodb').MongoClient;
+const { ObjectId } = require('bson');
 let db;
-mongoClient.connect('mongodb+srv://kazi:Labour23@cst3145cw2.wptfc.mongodb.net/cst3145cw2?retryWrites=true&w=majority/',(err,client) =>{
+mongoClient.connect('mongodb+srv://kazi:Labour23@cst3145cw2.wptfc.mongodb.net/',(err,client) =>{
     db = client.db('cst3145cw2');
 })
 
@@ -28,9 +30,23 @@ app.get('/collection/:collectionName',(req,res,next)=>{
 app.post('/collection/:collectionName',(req,res,next) =>{
     req.collection.insert(req.body,(e,results) => {
         if(e) return next(e);
-        res.send(results.ops);
+        res.send(results);
     })
 })
-app.listen(3000, ()=>{
+const ObjectID = require('mongodb').ObjectID;
+app.put('/collection/:collectionName/:id',(req,res,next) =>{
+    req.collection.update(
+        {_id: new ObjectID(req.params.id)},
+        {$set : req.body},
+        {safe:true, multi:false},
+        (e,result)=>{
+            if(e) return next(e);
+            res.send((result.matchedCount === 1) ? {msg : 'success'} :{msg:'error'})
+            console.log(result);
+        })
+})
+app.listen(port, ()=>{
     console.log('Express is running in in port 3000');
 })
+
+// cst3145cw2?retryWrites=true&w=majority/
