@@ -46,7 +46,7 @@ app.put('/collection/:collectionName/:id',(req,res,next) =>{
         })
 })
 app.listen(port, ()=>{
-    console.log('Express is running in in port 3000');
+    console.log('Express is running in in (heroku)port' + port);
 })
 
 // cst3145cw2?retryWrites=true&w=majority/
